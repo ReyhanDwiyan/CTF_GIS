@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIS CTF Challenge - Capture The Flag</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>GIS CTF CHALLENGE</h1>
+                    <p class="subtitle">Geographic Information Systems Capture The Flag</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Game Info Panel -->
+    <div class="info-panel">
+        <div class="container">
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-icon">▣</div>
+                    <div class="stat-content">
+                        <span class="stat-label">FLAGS CAPTURED</span>
+                        <span class="stat-value"><span id="flagsFound">0</span> / <span id="totalFlags">5</span></span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">★</div>
+                    <div class="stat-content">
+                        <span class="stat-label">TOTAL SCORE</span>
+                        <span class="stat-value" id="score">0</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">⏱</div>
+                    <div class="stat-content">
+                        <span class="stat-label">TIME ELAPSED</span>
+                        <span class="stat-value" id="timer">00:00</span>
+                    </div>
+                </div>
+            </div>
+            <button id="resetBtn" class="btn-reset">
+                <span class="btn-icon">↻</span>
+                <span>RESET GAME</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Map Container -->
+        <div id="map"></div>
+
+        <!-- Side Panel -->
+        <div class="side-panel">
+            <div class="panel-section">
+                <h2><span class="section-icon">i</span> INSTRUCTIONS</h2>
+                <div id="hints">
+                    <p>Klik pada marker di peta untuk menemukan flag!</p>
+                    <p>Setiap game menampilkan 5 challenges random dari 15+ lokasi.</p>
+                    <p style="margin-top: 12px;"><strong>Difficulty Levels:</strong></p>
+                    <p style="margin: 5px 0; font-size: 0.9em;">🟢 Easy: 80-120 points</p>
+                    <p style="margin: 5px 0; font-size: 0.9em;">🔵 Medium: 130-180 points</p>
+                    <p style="margin: 5px 0; font-size: 0.9em;">🟠 Hard: 200-250 points</p>
+                    <p style="margin: 5px 0; font-size: 0.9em;">🔴 Expert: 260-300 points</p>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h2><span class="section-icon">✓</span> CAPTURED FLAGS</h2>
+                <div id="foundFlags">
+                    <p class="empty-message">Belum ada flag yang ditemukan...</p>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h2><span class="section-icon">◈</span> LEADERBOARD</h2>
+                <div id="leaderboard">
+                    <ol id="leaderboardList">
+                        <li>Player1 - 500 poin</li>
+                        <li>Player2 - 450 poin</li>
+                        <li>Player3 - 400 poin</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Challenge Modal -->
+    <div id="challengeModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="challengeTitle">Challenge</h2>
+            <div id="challengeDescription"></div>
+            <div id="challengeInput">
+                <input type="text" id="flagInput" placeholder="Masukkan flag di sini...">
+                <button id="submitFlag" class="btn-submit">Submit Flag</button>
+            </div>
+            <div id="challengeResult"></div>
+        </div>
+    </div>
+
+    <!-- Victory Modal -->
+    <div id="victoryModal" class="modal">
+        <div class="modal-content victory">
+            <div class="victory-icon">✓</div>
+            <h2>MISSION ACCOMPLISHED!</h2>
+            <p>Anda telah berhasil menemukan semua flag</p>
+            <div id="finalStats"></div>
+            <button id="playAgainBtn" class="btn-submit">PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+
+</html>
